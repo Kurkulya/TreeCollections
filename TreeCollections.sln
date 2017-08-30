@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeCollections", "TreeColl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeTestsNUnit", "UnitTestProject1\TreeTestsNUnit.csproj", "{1F633F65-D9D5-41A1-8558-38559B6F57C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrawTree", "DrawTree\DrawTree.csproj", "{478EC330-03C7-4DA7-95C1-A353061FECA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1F633F65-D9D5-41A1-8558-38559B6F57C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F633F65-D9D5-41A1-8558-38559B6F57C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F633F65-D9D5-41A1-8558-38559B6F57C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{478EC330-03C7-4DA7-95C1-A353061FECA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{478EC330-03C7-4DA7-95C1-A353061FECA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{478EC330-03C7-4DA7-95C1-A353061FECA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{478EC330-03C7-4DA7-95C1-A353061FECA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,7 +9,7 @@ namespace TreeCollections
     public class BsTree : ITree
     {
 
-        class Node
+        protected class Node
         {
             public int val;
             public Node left;
@@ -20,7 +20,7 @@ namespace TreeCollections
             }
         }
 
-        Node root = null;
+        protected Node root = null;
 
         public void Init(int[] ini)
         {
