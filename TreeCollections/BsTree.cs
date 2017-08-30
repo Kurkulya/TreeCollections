@@ -71,7 +71,7 @@ namespace TreeCollections
             if (Size() == 1)
                 root = null;
 
-            DeleteNode(root, val);       
+            DeleteNode(root, val);
         }
         private Node FindNode(Node node, int val)
         {
@@ -98,7 +98,7 @@ namespace TreeCollections
             else if (node.left != null && node.right != null)
             {
                 node.val = Min(node.right).val;
-                node.right = DeleteNode(node.right, node.val);              
+                node.right = DeleteNode(node.right, node.val);
             }
             else
             {
@@ -130,7 +130,7 @@ namespace TreeCollections
 
             return Math.Max(GetHeight(node.left), GetHeight(node.right)) + 1;
         }
-#endregion
+        #endregion
 
         #region Width
         public int Width()
@@ -164,14 +164,10 @@ namespace TreeCollections
                 return 0;
 
             int leaves = 0;
-
             leaves += GetLeaves(node.left);
-
             if (node.left == null && node.right == null)
                 leaves++;
-
-            leaves += GetLeaves(node.right);  
-            
+            leaves += GetLeaves(node.right);
             return leaves;
         }
         #endregion
@@ -187,14 +183,10 @@ namespace TreeCollections
                 return 0;
 
             int nodes = 0;
-
             nodes += GetNodes(node.left);
-
             if (node.left != null || node.right != null)
                 nodes++;
-
             nodes += GetNodes(node.right);
-
             return nodes;
         }
         #endregion
@@ -215,7 +207,7 @@ namespace TreeCollections
             node.left = temp;
             SwapSides(node.left);
         }
-#endregion
+        #endregion
 
         #region Size
         public int Size()
@@ -233,7 +225,7 @@ namespace TreeCollections
             count += GetSize(node.right);
             return count;
         }
-#endregion
+        #endregion
 
         #region ToArray
         public int[] ToArray()
@@ -253,9 +245,9 @@ namespace TreeCollections
             if (node == null)
                 return;
 
-            NodeToArray(node.left, ini, ref n);    
-            ini[n++] = node.val;                
-            NodeToArray(node.right, ini, ref n);    
+            NodeToArray(node.left, ini, ref n);
+            ini[n++] = node.val;
+            NodeToArray(node.right, ini, ref n);
 
         }
         #endregion
@@ -263,7 +255,7 @@ namespace TreeCollections
         #region ToString
         public override String ToString()
         {
-            return NodeToString(root).TrimEnd(new char[] { ',' ,' '});            
+            return NodeToString(root).TrimEnd(new char[] { ',', ' ' });
         }
 
         private String NodeToString(Node node)
@@ -272,9 +264,9 @@ namespace TreeCollections
                 return "";
 
             String str = "";
-            str += NodeToString(node.left);   
-            str += node.val + ", ";          
-            str += NodeToString(node.right);   
+            str += NodeToString(node.left);
+            str += node.val + ", ";
+            str += NodeToString(node.right);
             return str;
         }
 
@@ -282,6 +274,28 @@ namespace TreeCollections
         {
             root = null;
         }
-    }
+        #endregion
+
+        #region Equal
+
+        public bool Equal(BsTree tree)
+        {
+            return CompareNodes(root, tree.root);
+        }
+
+        private bool CompareNodes(Node curTree, Node tree)
+        {
+            if (curTree == null && tree == null)
+                return true;
+            if (curTree == null || tree == null)
+                return false;
+
+            bool equal = false;
+            equal = CompareNodes(curTree.left, tree.left);
+            equal = equal & (curTree.val == tree.val);
+            equal = CompareNodes(curTree.right, tree.right);
+            return equal;
+        }
 #endregion
+    }
 }

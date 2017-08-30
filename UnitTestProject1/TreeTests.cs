@@ -130,15 +130,18 @@ namespace UnitTestProject1
         [Test]
         [TestCase(new int[] { 2 }, new int[] { }, 2)]
         [TestCase(new int[] { 5, 8 }, new int[] { 5 }, 8)]
-        [TestCase(new int[] { 3, 7, 4, 9, 1 }, new int[] {1, 3, 7, 9 }, 4)]
-        [TestCase(new int[] { 3, 7, 4, 9, 1 }, new int[] { 1,4, 7, 9 }, 3)]
-        [TestCase(new int[] { 3, 7, 4, 9, 1 }, new int[] { 3, 4, 7, 9 }, 1)]
-        [TestCase(new int[] { 3, 7, 4, 9, 1 }, new int[] { 1, 3, 4, 9 }, 7)]
+        [TestCase(new int[] { 3, 7, 1, 0, 9, 2, 8 }, new int[] { 3, 7, 1, 0, 9, 8}, 2)]
+        [TestCase(new int[] { 3, 7, 1, 0, 9, 2, 8 }, new int[] { 3, 7, 1, 0, 2, 8 }, 9)]
+        [TestCase(new int[] { 3, 7, 1, 0, 9, 2, 8 }, new int[] { 3, 9, 1, 0, 8, 2 }, 7)]
+        [TestCase(new int[] { 3, 7, 1, 0, 9, 2, 8 }, new int[] { 7, 1, 9, 0, 2, 8 }, 3)]
+        [TestCase(new int[] { 3, 7, 1, 0, 9, 2, 8 }, new int[] { 3, 2, 7, 0, 9, 8 }, 1)]
         public void TestDel(int[] input, int[] res, int val)
         {
+            BsTree compare = new BsTree();
+            compare.Init(res);
             lst.Init(input);
             lst.Del(val);
-            CollectionAssert.AreEqual(res, lst.ToArray());
+            Assert.IsTrue(lst.Equal(compare));
         }
 
         [Test]
