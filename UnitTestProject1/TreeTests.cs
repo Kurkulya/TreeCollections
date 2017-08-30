@@ -5,6 +5,7 @@ using TreeCollections;
 namespace UnitTestProject1
 {
     [TestFixture(typeof(BsTree))]
+    [TestFixture(typeof(BsTreeV))]
     public class NUnitTests<TTree> where TTree : ITree, new()
     {
         ITree lst = new TTree();
@@ -137,7 +138,7 @@ namespace UnitTestProject1
         [TestCase(new int[] { 3, 7, 1, 0, 9, 2, 8 }, new int[] { 3, 2, 7, 0, 9, 8 }, 1)]
         public void TestDel(int[] input, int[] res, int val)
         {
-            BsTree compare = new BsTree();
+            ITree compare = new TTree();
             compare.Init(res);
             lst.Init(input);
             lst.Del(val);

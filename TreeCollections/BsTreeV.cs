@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace TreeCollections
 {
-    public class BsTree : ITree
+    public class BsTreeV : ITree
     {
-        protected class Node
+
+        class Node
         {
             public int val;
             public Node left;
@@ -19,19 +20,7 @@ namespace TreeCollections
             }
         }
 
-        protected Node root = null;
-
-        public void Init(int[] ini)
-        {
-            if (ini == null)
-                return;
-
-            Clear();
-            for (int i = 0; i < ini.Length; i++)
-            {
-                Add(ini[i]);
-            }
-        }
+        Node root = null;
 
         #region Add
         public void Add(int val)
@@ -59,6 +48,11 @@ namespace TreeCollections
             }
         }
         #endregion
+
+        public void Clear()
+        {
+            root = null;
+        }
 
         #region Del
         public void Del(int val)
@@ -117,6 +111,28 @@ namespace TreeCollections
         }
         #endregion
 
+        #region Equal
+
+        public bool Equal(ITree tree)
+        {
+            return CompareNodes(root, (tree as BsTreeV).root);
+        }
+
+        private bool CompareNodes(Node curTree, Node tree)
+        {
+            if (curTree == null && tree == null)
+                return true;
+            if (curTree == null || tree == null)
+                return false;
+
+            bool equal = false;
+            equal = CompareNodes(curTree.left, tree.left);
+            equal = equal & (curTree.val == tree.val);
+            equal = CompareNodes(curTree.right, tree.right);
+            return equal;
+        }
+        #endregion
+
         #region Height
         public int Height()
         {
@@ -130,6 +146,64 @@ namespace TreeCollections
             return Math.Max(GetHeight(node.left), GetHeight(node.right)) + 1;
         }
         #endregion
+
+        public void Init(int[] ini)
+        {
+            if (ini == null)
+                return;
+
+            Clear();
+            for (int i = 0; i < ini.Length; i++)
+            {
+                Add(ini[i]);
+            }
+        }
+
+        public int Leaves()
+        {
+            LeavesVisitor lv = new LeavesVisitor();
+            Visit(root, lv);
+            return lv.leaves;
+        }
+
+        public int Nodes()
+        {
+            NodesVisitor nv = new NodesVisitor();
+            Visit(root, nv);
+            return nv.nodes;
+        }
+
+        #region Reverse
+        public void Reverse()
+        {
+            SwapSides(root);
+        }
+        private void SwapSides(Node node)
+        {
+            if (node == null)
+                return;
+
+            SwapSides(node.left);
+            Node temp = node.right;
+            node.right = node.left;
+            node.left = temp;
+            SwapSides(node.left);
+        }
+        #endregion
+
+        public int Size()
+        {
+            SizeVisitor sv = new SizeVisitor();
+            Visit(root, sv);
+            return sv.size;
+        }
+
+        public int[] ToArray()
+        {
+            ArrayVisitor av = new ArrayVisitor(Size());
+            Visit(root, av);
+            return av.arr;
+        }
 
         #region Width
         public int Width()
@@ -152,149 +226,81 @@ namespace TreeCollections
         }
         #endregion
 
-        #region Leaves
-        public int Leaves()
+        public override string ToString()
         {
-            return GetLeaves(root);
+            StringVisitor sv = new StringVisitor();
+            Visit(root, sv);
+            return sv.str.TrimEnd(new char[] { ',', ' ' });
         }
-        private int GetLeaves(Node node)
-        {
-            if (node == null)
-                return 0;
 
-            int leaves = 0;
-            leaves += GetLeaves(node.left);
-            if (node.left == null && node.right == null)
-                leaves++;
-            leaves += GetLeaves(node.right);
-            return leaves;
+        #region Visitors
+        class LeavesVisitor : IVisitor
+        {
+            public int leaves = 0;
+            public void Action(Node node)
+            {
+                if (node.left == null && node.right == null)
+                    leaves++;
+            }
         }
-        #endregion
 
-        #region Nodes
-        public int Nodes()
+        class NodesVisitor : IVisitor
         {
-            return GetNodes(root);
+            public int nodes = 0;
+            public void Action(Node node)
+            {
+                if (node.left != null || node.right != null)
+                    nodes++;
+            }
         }
-        private int GetNodes(Node node)
+        
+        class SizeVisitor : IVisitor
         {
-            if (node == null)
-                return 0;
-
-            int nodes = 0;
-            nodes += GetNodes(node.left);
-            if (node.left != null || node.right != null)
-                nodes++;
-            nodes += GetNodes(node.right);
-            return nodes;
+            public int size = 0;
+            public void Action(Node node)
+            {
+                size++;
+            }
         }
-        #endregion
 
-        #region Reverse
-        public void Reverse()
+        
+        class ArrayVisitor : IVisitor
         {
-            SwapSides(root);
-        }
-        private void SwapSides(Node node)
-        {
-            if (node == null)
-                return;
-
-            SwapSides(node.left);
-            Node temp = node.right;
-            node.right = node.left;
-            node.left = temp;
-            SwapSides(node.left);
-        }
-        #endregion
-
-        #region Size
-        public int Size()
-        {
-            return GetSize(root);
-        }
-        private int GetSize(Node node)
-        {
-            if (node == null)
-                return 0;
-
-            int count = 0;
-            count += GetSize(node.left);
-            count++;
-            count += GetSize(node.right);
-            return count;
-        }
-        #endregion
-
-        #region ToArray
-        public int[] ToArray()
-        {
-            if (root == null)
-                return new int[] { };
-
-            int[] ret = new int[Size()];
+            public int[] arr = null;
             int i = 0;
-            NodeToArray(root, ret, ref i);
-            return ret;
-
-
-        }
-        private void NodeToArray(Node node, int[] ini, ref int n)
-        {
-            if (node == null)
-                return;
-
-            NodeToArray(node.left, ini, ref n);
-            ini[n++] = node.val;
-            NodeToArray(node.right, ini, ref n);
-
-        }
-        #endregion
-
-        #region ToString
-        public override String ToString()
-        {
-            return NodeToString(root).TrimEnd(new char[] { ',', ' ' });
+            public ArrayVisitor(int size)
+            {
+                arr = new int[size];
+            }
+            public void Action(Node node)
+            {
+                arr[i++] = node.val;
+            }
         }
 
-        private String NodeToString(Node node)
+        class StringVisitor : IVisitor
         {
-            if (node == null)
-                return "";
-
-            String str = "";
-            str += NodeToString(node.left);
-            str += node.val + ", ";
-            str += NodeToString(node.right);
-            return str;
-        }
-
-        public void Clear()
-        {
-            root = null;
-        }
-        #endregion
-
-        #region Equal
-
-        public bool Equal(ITree tree)
-        {
-            return CompareNodes(root, (tree as BsTree).root);
-        }
-
-        private bool CompareNodes(Node curTree, Node tree)
-        {
-            if (curTree == null && tree == null)
-                return true;
-            if (curTree == null || tree == null)
-                return false;
-
-            bool equal = false;
-            equal = CompareNodes(curTree.left, tree.left);
-            equal = equal & (curTree.val == tree.val);
-            equal = CompareNodes(curTree.right, tree.right);
-            return equal;
+            public string str = "";
+            public void Action(Node node)
+            {
+                str += node.val + ", ";
+            }
         }
 #endregion
+
+        private interface IVisitor
+        {
+            void Action(Node node);
+        }
+
+        private void Visit(Node node, IVisitor v)
+        {
+            if (node == null)
+                return;
+
+            Visit(node.left, v);
+            v.Action(node);
+            Visit(node.right, v);
+        }
     }
 }

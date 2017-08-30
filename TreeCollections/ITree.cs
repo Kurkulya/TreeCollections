@@ -19,6 +19,6 @@ namespace TreeCollections
         int Leaves();
         void Reverse();
         void Clear();
-        bool Equal(BsTree tree);
+        bool Equal(ITree tree);
     }
 }
