@@ -7,6 +7,7 @@ namespace UnitTestProject1
     [TestFixture(typeof(BsTree))]
     [TestFixture(typeof(BsTreeV))]
     [TestFixture(typeof(BsTreeR))]
+    [TestFixture(typeof(BsTreeC))]
     public class NUnitTests<TTree> where TTree : ITree, new()
     {
         ITree lst = new TTree();
