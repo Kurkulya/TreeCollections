@@ -205,26 +205,16 @@ namespace TreeCollections
             return av.arr;
         }
 
-        #region Width
         public int Width()
         {
             if (root == null)
                 return 0;
 
-            int[] ret = new int[Height()];
-            GetWidth(root, ret, 0);
-            return ret.Max();
+            WidthVisitor v = new WidthVisitor(Height(), root);
+            Visit(root, v);
+            return v.ret.Max();
         }
-        private void GetWidth(Node node, int[] levels, int level)
-        {
-            if (node == null)
-                return;
-
-            GetWidth(node.left, levels, level + 1);
-            levels[level]++;
-            GetWidth(node.right, levels, level + 1);
-        }
-        #endregion
+               
 
         public override string ToString()
         {
@@ -263,7 +253,22 @@ namespace TreeCollections
             }
         }
 
-        
+        class WidthVisitor : IVisitor
+        {
+            public int[] ret;
+            private Node root;
+            public WidthVisitor(int Height, Node root)
+            {
+                ret = new int[Height];
+                this.root = root;
+            }
+            public void Action(Node node)
+            {
+                int currentDepth = HeightV(root, node, 0);
+                ++ret[currentDepth];
+            }
+        }
+
         class ArrayVisitor : IVisitor
         {
             public int[] arr = null;
@@ -277,7 +282,7 @@ namespace TreeCollections
                 arr[i++] = node.val;
             }
         }
-
+       
         class StringVisitor : IVisitor
         {
             public string str = "";
@@ -291,6 +296,21 @@ namespace TreeCollections
         private interface IVisitor
         {
             void Action(Node node);
+        }
+
+        static int HeightV(Node node, Node dest, int level)
+        {
+            if (node == null)
+                return 0;
+
+            if (node == dest)
+                return level;
+
+            int downlevel = HeightV(node.left, dest, level + 1);
+            if (downlevel != 0)
+                return downlevel;
+            downlevel = HeightV(node.right, dest, level + 1);
+            return downlevel;
         }
 
         private void Visit(Node node, IVisitor v)
