@@ -9,8 +9,24 @@ namespace DrawTree
 {
     public class XData
     {
-        public int lvl;
         public int pX;
         public int pY;
+        public int lvl;
+        public int left;
+        public int right;
+        
+        public XData(int left, int right, int lvl, int pX, int pY)
+        {
+            Init(left, right, lvl, pX, pY);
+        }
+
+        public void Init(int left, int right, int lvl, int pX, int pY)
+        {
+            this.left = left;
+            this.right = right;
+            this.lvl = lvl;
+            this.pX = pX;
+            this.pY = pY;
+        }
     }
 }
