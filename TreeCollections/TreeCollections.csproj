@@ -43,11 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BsTree.cs" />
+    <Compile Include="BsTreeBR.cs" />
     <Compile Include="BsTreeC.cs" />
     <Compile Include="BsTreeR.cs" />
     <Compile Include="BsTreeV.cs" />
     <Compile Include="EmptyTreeEx.cs" />
     <Compile Include="ITree.cs" />
+    <Compile Include="ITreeBalanced.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueNotFoundEx.cs" />

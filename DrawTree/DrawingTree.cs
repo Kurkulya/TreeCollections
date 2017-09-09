@@ -10,7 +10,7 @@ using TreeCollections;
 
 namespace DrawTree
 {
-    public class BsTreeDraw : BsTree
+    public class BsTreeDraw : BsTreeBR
     {
         Graphics graph = null;
         int dY;
@@ -40,9 +40,10 @@ namespace DrawTree
             int x = (left + right) / 2;
             int y = ++lvl * dY;
 
-            graph.DrawLine(new Pen(Color.Black), x, y - rad, data.pX, data.pY + rad);        
-            graph.DrawEllipse(new Pen(Color.Red, 3), x - rad, y - rad, 2 * rad, 2 * rad);
-            graph.DrawString("" + node.val, new Font("Arial", 10 , FontStyle.Bold), Brushes.Blue, x - rad / 2, y - rad / 2);
+            SolidBrush color = new SolidBrush((node.color == Color.Black) ? System.Drawing.Color.Black : System.Drawing.Color.Red);
+            graph.DrawLine(new Pen(System.Drawing.Color.Black), x, y - rad, data.pX, data.pY + rad);        
+            graph.FillEllipse(color, x - rad, y - rad, 2 * rad, 2 * rad);
+            graph.DrawString("" + node.val, new Font("Arial", 10 , FontStyle.Bold), Brushes.White, x - rad / 2, y - rad / 2);
 
             data.Init(left , x , lvl, x, y);
             DrawNode(node.left, data);
