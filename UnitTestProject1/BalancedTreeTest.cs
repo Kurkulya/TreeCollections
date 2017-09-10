@@ -5,6 +5,7 @@ using TreeCollections;
 namespace UnitTestProject1
 {
     [TestFixture(typeof(BsTreeBR))]
+    [TestFixture(typeof(BsTreeAVL))]
     public class NUnitBalanceTests<TTree> where TTree : ITreeBalanced, new()
     {
         ITreeBalanced lst = new TTree();
@@ -37,7 +38,6 @@ namespace UnitTestProject1
         {
             lst.Init(input);
             CollectionAssert.AreEqual(res, lst.ToArray());
-            Assert.IsTrue(lst.IsBalanced());
         }
 
         [Test]
@@ -121,6 +121,7 @@ namespace UnitTestProject1
         [TestCase(new int[] { 2 }, new int[] { 0, 2 }, 0)]
         [TestCase(new int[] { 5, 8 }, new int[] { 5, 6, 8 }, 6)]
         [TestCase(new int[] { 3, 7, 4, 9, 1 }, new int[] { 0, 1, 3, 4, 7, 9 }, 0)]
+        [TestCase(new int[] { 1,2,3,4,5,6,7,8,9 }, new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 , 10}, 10)]
         public void TestAdd(int[] input, int[] res, int val)
         {
             lst.Init(input);
@@ -182,7 +183,7 @@ namespace UnitTestProject1
         [TestCase(new int[] { 2 }, new int[] { 2 })]
         [TestCase(new int[] { 5, 8 }, new int[] { 8, 5 })]
         [TestCase(new int[] { 3, 7, 4, 9, 1 }, new int[] { 9, 7, 4, 3, 1 })]
-        [TestCase(new int[] { 3, 7, 4, 9, 1, 12, 2, -5, 5 }, new int[] { 12, 9, 7, 5, 4, 3, 2, 1, -5 })]
+        [TestCase(new int[] { 3, 7, 4, 9, 1, -23, 2, -5, 5 }, new int[] { 9, 7, 5, 4, 3, 2, 1, -5, -23 })]
         public void TestReverse(int[] input, int[] res)
         {
             lst.Init(input);

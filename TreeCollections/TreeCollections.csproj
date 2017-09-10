@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BsTree.cs" />
+    <Compile Include="BsTreeAVL.cs" />
     <Compile Include="BsTreeBR.cs" />
     <Compile Include="BsTreeC.cs" />
     <Compile Include="BsTreeR.cs" />
